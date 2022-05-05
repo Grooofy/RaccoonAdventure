@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovementPoints : MonoBehaviour
+public class WaypointMovement : MonoBehaviour
 {
     [SerializeField] private Transform _path;
     [SerializeField] private float _speed;
@@ -9,18 +9,10 @@ public class MovementPoints : MonoBehaviour
     private List<Transform> _points;
     private int _currentPoint = 0;
 
+    private void Start() => GetPath();
 
-    private void Start()
-    {
-        GetPath();
-    }
-
-
-    private void Update()
-    {
-        Move();
-    }
-
+    private void Update() =>  Move();
+   
     private void Move()
     {
         Transform target = _points[_currentPoint];
