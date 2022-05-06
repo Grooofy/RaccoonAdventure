@@ -8,41 +8,32 @@ public class Alarm : MonoBehaviour
 
     private float _minVolumeValue = 0;
     private float _maxVolumeValue = 1;
-    private bool _isActive = true;
-
+    
     private AudioSource _audioSource;
-    private Coroutine _coroutineVolumeUp;
-    private Coroutine _coroutineVolumeDown;
+    private Coroutine _coroutineVolume;
 
     private void Start() => _audioSource = GetComponent<AudioSource>();
 
-    private void OnTriggerEnter(Collider other)
+    public void StartAlarm()
     {
-        if (other.gameObject.GetComponent<WaypointMovement>() != null)
-        {
-            if (_isActive)
-            {
-                if (_coroutineVolumeDown != null)
-                    StopCoroutine(_coroutineVolumeDown);
+        if (_coroutineVolume != null)
+            StopCoroutine(_coroutineVolume);
 
-                _coroutineVolumeUp = StartCoroutine(FadeInVolume(_maxVolumeValue));
-                _lamp.gameObject.SetActive(true);
-            }
-            else
-            {
-                if (_coroutineVolumeUp != null)
-                    StopCoroutine(_coroutineVolumeUp);
+        _coroutineVolume = StartCoroutine(FadeInVolume(_maxVolumeValue));
+        _lamp.gameObject.SetActive(true);
+    }
 
-                _coroutineVolumeDown = StartCoroutine(FadeInVolume(_minVolumeValue));
-                _lamp.gameObject.SetActive(false);
-            }
-        }
+    public void StopAlarm()
+    {
+        if (_coroutineVolume != null)
+            StopCoroutine(_coroutineVolume);
+
+        _coroutineVolume = StartCoroutine(FadeInVolume(_minVolumeValue));
+        _lamp.gameObject.SetActive(false);
     }
 
     private IEnumerator FadeInVolume(float value)
     {
-        _isActive = value != 1 ? true : false;
-
         float speed = 0.1f;
         float step = speed * Time.deltaTime;
 

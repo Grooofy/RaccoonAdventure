@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class LookAtTarget : MonoBehaviour
+public class Caretaker : MonoBehaviour
 {
     [SerializeField] private Transform _target;
 
